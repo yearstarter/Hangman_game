@@ -1,0 +1,210 @@
+import random
+# to request a word from a website:
+import requests 
+# to clear a screen afte each move:
+from google.colab import output 
+
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+# setting up pictures
+stages = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+
+logo = ''' 
+█░█ ▄▀█ █▄░█ █▀▀ █▀▄▀█ ▄▀█ █▄░█
+█▀█ █▀█ █░▀█ █▄█ █░▀░█ █▀█ █░▀█         
+'''
+win_logo = '''
+█▄█ █▀█ █░█   █░█░█ █ █▄░█ █
+░█░ █▄█ █▄█   ▀▄▀▄▀ █ █░▀█ ▄
+'''
+loss_logo = '''
+█▄█ █▀█ █░█ ▀ █░█ █▀▀   █░░ █▀█ █▀ ▀█▀ █
+░█░ █▄█ █▄█ ░ ▀▄▀ ██▄   █▄▄ █▄█ ▄█ ░█░ ▄
+'''
+
+
+
+# if you want to define a list of words by yourself
+word_list = [
+'abruptly', 'absurd', 'abyss', 'affix', 'askew', 'avenue', 'awkward', 'axiom', 
+'azure', 'bagpipes', 'bandwagon', 'banjo', 'bayou', 'beekeeper', 'bikini', 
+'blitz', 'blizzard', 'boggle', 'bookworm', 'boxcar', 'boxful', 'buckaroo', 
+'buffalo', 'buffoon', 'buxom', 'buzzard', 'buzzing', 'buzzwords', 'caliph', 
+'cobweb', 'cockiness', 'croquet', 'crypt', 'curacao', 'cycle', 'daiquiri', 
+'dirndl', 'disavow', 'dizzying', 'duplex', 'dwarves', 'embezzle', 
+'equip', 'espionage', 'euouae', 'exodus', 'faking', 'fishhook', 'fixable', 
+'fjord', 'flapjack', 'flopping', 'fluffiness', 'flyby', 'foxglove', 'frazzled', 
+'frizzled', 'fuchsia', 'funny', 'gabby', 'galaxy', 'galvanize', 'gazebo', 
+'giaour', 'gizmo', 'glowworm', 'glyph', 'gnarly', 'gnostic', 
+'gossip', 'grogginess', 'haiku', 'haphazard', 'hyphen', 'iatrogenic', 
+'icebox', 'injury', 'ivory', 'ivy', 'jackpot', 'jaundice', 'jawbreaker', 
+'jaywalk', 'jazziest', 'jazzy', 'jelly', 'jigsaw', 'jinx', 'jiujitsu', 'jockey', 
+'jogging', 'joking', 'jovial', 'joyful', 'juicy', 'jukebox', 'jumbo', 'kayak', 
+'kazoo', 'keyhole', 'khaki', 'kilobyte', 'kiosk', 'kitsch', 'kiwifruit', 'klutz', 
+'knapsack', 'larynx', 'lengths', 'lucky', 'luxury', 'lymph', 'marquis', 'matrix', 
+'megahertz', 'microwave', 'mnemonic', 'mystify', 'naphtha', 'nightclub', 
+'nowadays', 'numbskull', 'nymph', 'onyx', 'ovary', 'oxidize', 'oxygen', 'pajama', 
+'peekaboo', 'phlegm', 'pixel', 'pizazz', 'pneumonia', 'polka', 'pshaw', 'psyche', 
+'puppy', 'puzzling', 'quartz', 'queue', 'quips', 'quixotic', 'quiz', 'quizzes', 
+'quorum', 'razzmatazz', 'rhubarb', 'rhythm', 'rickshaw', 'schnapps', 'scratch', 
+'shiv', 'snazzy', 'sphinx', 'spritz', 'squawk', 'staff', 'strength', 'strengths', 
+'stretch', 'stronghold', 'stymied', 'subway', 'swivel', 'syndrome', 'thriftless', 
+'thumbscrew', 'topaz', 'transcript', 'transgress', 'transplant', 'triphthong', 
+'twelfth', 'twelfths', 'unknown', 'unworthy', 'unzip', 'uptown', 'vaporize', 
+'vixen', 'vodka', 'voodoo', 'vortex', 'voyeurism', 'walkway', 'waltz', 'wave', 
+'wavy', 'waxy', 'wellspring', 'wheezy', 'whiskey', 'whizzing', 'whomever', 
+'wimpy', 'witchcraft', 'wizard', 'woozy', 'wristwatch', 'wyvern', 'xylophone', 
+'yachtsman', 'yippee', 'yoked', 'youthful', 'yummy', 'zephyr', 'zigzag', 
+'zigzagging', 'zilch', 'zipper', 'zodiac', 'zombie'
+]
+
+
+print(f"LET'S PLAAAAAAY...{logo}")
+
+# asking a game host, who are going to set a word
+word_source = input(f'Do you want to type a word to be guessed? ').lower()
+if word_source.startswith('y'):
+    # CONTINUE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    wrong_symbol = False
+    wrong_symbols_counter = 0
+    while not wrong_symbol
+        chosen_word = input(f'Please enter a word to be guessed: ').lower()
+        for symbol in chosen_word:
+            if not symbol in alphabet:
+                print(f'"{symbol}" doesn\'t look like a letter.')
+                wrong_symbols_counter += 1
+
+        
+
+else:
+    output.clear()
+    
+    level_dict = {1:1,2:6,3:11,4:100}
+    level = int(input('''
+    What difficulty level dou you want?
+    1: 1-5 letters
+    2: 6-10 letters
+    3: more than 10 letters
+    Type 1, 2 or 3: 
+    '''))
+    min_letters = level_dict[level]
+    max_letters = level_dict[level+1]
+
+    # block to withdraw a word from an external website (mit.edu):
+    def draw_word(var1, var2):
+        url = "https://www.mit.edu/~ecprice/wordlist.10000"
+        draw = str(requests.get(url).content, 'utf-8')
+        word_list = draw.splitlines()
+        while True:
+            word = random.choice(word_list)
+            if var1 <= len(word) < var2:
+                return word
+    chosen_word = draw_word(min_letters, max_letters)
+
+output.clear()
+
+# setting up varaiables
+word_length = len(chosen_word)
+end_of_game = False
+lives = 6
+guessed_letters = []
+
+
+# Testing code: 
+print(f'Pssst, the solution is {chosen_word}.')
+
+display = []
+for i in range(word_length):
+    display += "_"
+
+while not end_of_game:
+    guess = input("Pick a letter: ").lower()
+    
+    if guess in alphabet and len(guess) == 1:
+        if guess in guessed_letters:
+            print(f'\nYou letter is {guess}, but you have already tried it.\n')
+        
+        else:    
+            output.clear()
+            for position in range(word_length):
+                letter = chosen_word[position]
+                if letter == guess:
+                    display[position] = letter
+        
+            if guess not in chosen_word:
+                lives -= 1
+                if lives == 0:
+                    end_of_game = True
+                    print(f'\n{loss_logo}\nThe word was {chosen_word}')
+                else:
+                    print(f"You guessed '{guess}', that's not in the word.")
+            else:
+                print(f"\nCorrect! There is a letter '{guess}' in a secret word!")
+            print(f"\n{' '.join(display)}")
+            print(stages[lives])
+            
+            #Check if user has got all letters.
+            if "_" not in display:
+                end_of_game = True
+                print(win_logo)
+                break
+            
+            guessed_letters.append(guess)
+            print(f"You have tried these letters: {guessed_letters}\n")
+    else:
+        print(f"You'd better pick a real letter")
